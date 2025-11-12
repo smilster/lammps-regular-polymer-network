@@ -32,7 +32,7 @@ make serial
 ```
 This script should be performed on a single processor,
 ```
-lmp serial -in in.make_network
+lmp_serial -in in.make_network
 ```
 to avoid any cross-core neighbor list issues. You might want to adjust <code>neigh_modify</code>.
 
