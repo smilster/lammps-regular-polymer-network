@@ -4,14 +4,6 @@ In such a network, there are crosslinkers with four adjacent chains. The chains 
 
 <img align="center" width="300" height="300"   src="https://github.com/smilster/lammps-regular-polymer-network/blob/main/example.png" alt="example">
 
-### Script Breakdown
-- put 4 crosslinkers on a fcc lattice
-- shift them by 0.25 lattice units
-- add another 4 crosslinkers to the fcc lattice without shifting (now you have a diamond lattice)
-- add chain-monomers to the fcc lattice and shift them along the chain paths
-- <code>bond/create</code> creates bonds, and assigns bond and angles types
-- <code>write_data</code>
-
 ### Papers
 Older versions of this script were used for structure generation in 
 
@@ -20,6 +12,15 @@ https://doi.org/10.1063/5.0189166
 https://doi.org/10.1063/5.0261459
 
 https://doi.org/10.1063/5.0045675
+### Script Breakdown
+- put 4 crosslinkers on a fcc lattice
+- shift them by 0.25 lattice units
+- add another 4 crosslinkers to the fcc lattice without shifting (now you have a diamond lattice)
+- add chain-monomers to the fcc lattice and shift them along the chain paths
+- <code>bond/create</code> creates bonds, and assigns bond and angles types
+- <code>write_data</code>
+
+
 
 
 ### Minimal LAMMPS build
