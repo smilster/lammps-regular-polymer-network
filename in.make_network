@@ -1,0 +1,196 @@
+#
+# Author: Sebastian Milster (University of Freiburg)
+# Repository: https://github.com/smilster/lammps-regular-polymer-network
+#
+# Older versions of this script were used for structure generation in 
+#
+# https://doi.org/10.1063/5.0189166
+# https://doi.org/10.1063/5.0261459
+# https://doi.org/10.1063/5.0045675
+#  
+# If you use this code in academic work, we will be happy if you cite
+# one of the papers and this repository. 
+#  
+#
+# License: MIT License
+
+
+
+
+units        lj
+boundary    p p p
+atom_style    angle
+special_bonds    lj 0.0 1.0 1.0
+
+# atom types:
+# 1 - crosslinkers
+# 2 - chain monomers
+# 3 - temporary helper type for chain monomers
+
+# you should run this script on a single processor to avoid
+# cross-core neighbor lists
+processors 1 1 1
+comm_style brick
+
+
+###########################################
+# number of monomers between two cross-linkers / chain length
+variable monomers_per_chain equal 5
+
+# number of unit cells in each direction
+variable uc_number equal 2
+
+# change if box lengths should differ 
+variable uc_number_x equal ${uc_number}
+variable uc_number_y equal ${uc_number}
+variable uc_number_z equal ${uc_number}
+
+
+## REDUCED LJ UNITS
+# I kept steps of calculation for better readability. This script actually only needs
+# the monomer distance and the number density
+
+# Distance between two monomers for atom creation. Should be close to bond length for better minimizatio and equilibration.
+variable monomer_distance equal 2.5 
+
+variable room_diagonal equal 4*(${monomers_per_chain} + 1)*${monomer_distance} 
+variable box_length equal ${room_diagonal}/sqrt(3) 
+variable box_volume equal ${box_length}^3
+
+# there are 4 atoms in a fcc lattice
+variable number_density equal 4/${box_volume}
+
+
+
+###############################
+## setup fcc lattice and create box
+
+lattice fcc ${number_density}
+region  box block 0 ${uc_number_x} 0 ${uc_number_y} 0 ${uc_number_z}
+
+# the following line is needed to allocate memory for potential bonds and angles.
+# numbers are probably too high, only reduce if you run into memory issues
+create_box 3 box bond/types 1 angle/types 2 extra/bond/per/atom 4 extra/angle/per/atom 20  extra/special/per/atom 20
+
+
+
+############################
+## PARTICLE SPECS
+
+# define arbitrary masses
+mass * 1.0
+
+# set pair distances in which bond/create will search for bond partners
+# must be larger than the initial distance between chain monomers
+variable search_distance equal 1.05*${monomer_distance}
+
+
+# zero pair style suffices for bond creation
+pair_style    zero ${search_distance} nocoeff
+pair_coeff    * *
+
+# define bonds and angles, arbitrary
+bond_style 	    harmonic
+bond_coeff	    * 1 1 # 
+
+
+# define angles, arbitrary
+angle_style     harmonic
+angle_coeff     1 1 109.5 # angle at cross-linker, i.e., atom types: 2-1-2
+angle_coeff     2 1 180  # angle along chain, i.e., atom types: 2-2-2
+
+
+######################
+## CREATE CROSSLINKERS
+
+create_atoms    1 region box # creates 4 particles on fcc lattice
+
+# shift  by 0.25 lattice length 
+group shift_group type 1 # group atoms
+displace_atoms shift_group move 0.25 0.25 0.25 units lattice
+group shift_group delete # delete group
+
+
+
+# create a second group of fcc atoms -> diamond lattice together with the former shift_group
+create_atoms    1 region box
+
+#######################
+##CREATE CHAIN MONOMERS
+
+# chain monomer distance in lattice units
+variable monomer_distance_lattice equal 0.25/(${monomers_per_chain}+1)
+
+
+
+# START LOOP
+#loop through monomers of one chain
+label loop
+
+variable monomer_index loop ${monomers_per_chain}
+
+
+    # distance to be shifted in lattice units
+    variable shift delete
+    variable shift equal ${monomer_distance_lattice}*${monomer_index}
+
+
+    # CHAIN ONE
+    # first place monomers on lattice spots 
+    create_atoms    3 region box
+    # shift
+    group shift_group type 3
+    displace_atoms shift_group move ${shift} ${shift} ${shift} units lattice
+    # set group to monomer type = 2
+    set type 3 type 2
+    group shift_group delete
+
+
+    # CHAIN TWO
+    create_atoms    3 region box
+    group shift_group type 3
+    displace_atoms shift_group move -${shift} -${shift} ${shift} units lattice
+    set type 3 type 2
+    group shift_group delete
+
+    # CHAIN THREE
+    create_atoms    3 region box
+    group shift_group type 3
+    displace_atoms shift_group move -${shift} ${shift} -${shift} units lattice
+    set type 3 type 2
+    group shift_group delete
+
+    # CHAIN FOUR
+    create_atoms    3 region box
+    group shift_group type 3
+    displace_atoms shift_group move ${shift} -${shift} -${shift} units lattice
+    set type 3 type 2
+    group shift_group delete
+
+
+    next monomer_index
+    jump SELF loop
+
+# END OF LOOP
+
+
+##################
+## CREATE BONDS
+
+# link crosslinkers to adjacent chain monomers
+fix     create_crosslinker_bonds all bond/create 1 2 1 ${search_distance} 1 atype 1 
+run     4 # needs four steps because each crosslinker has 4 bonds
+run     4 # run again, in case you have chosen monomers_per_chain = 1
+
+unfix   create_crosslinker_bonds
+
+
+# link chain monomers
+fix     create_chain_bonds all bond/create 1 2 2 ${search_distance} 1 atype 2
+run     2 # two should be enough, but you can also increase just in case
+unfix   create_chain_bonds
+
+################
+# WRITE OUT
+
+write_data data.network nocoeff nofix 
