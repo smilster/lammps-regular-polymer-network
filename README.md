@@ -33,7 +33,11 @@ make yes-mc
 make yes-molecule
 make serial
 ```
-This script should be performed on a single processor (<code>lmp serial -in in.make_network</code>) to avoid any cross-core neighbor list issues. You might want to adjust <code>neigh_modify</code>.
+This script should be performed on a single processor,
+```
+lmp serial -in in.make_network
+```
+to avoid any cross-core neighbor list issues. You might want to adjust <code>neigh_modify</code>.
 
 <sub>Tested with stable LAMMPS branch on 11/11/2025.</sub>
 
