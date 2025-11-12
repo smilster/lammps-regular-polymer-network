@@ -1,6 +1,6 @@
 ### lammps-regular-polymer-network
 The file <code>in.make_network</code> is a LAMMPS script that generates a periodic regular polymer network with tetrafunctional crosslinkers. LAMMPS will handle positioning and the topology.
-In such a network, there are crosslinkers with four adjacent chains. The chains between two crosslinkers have a fixed length. You can adjust, for example, chain length, unit cell repition or distance between chain monomers.
+In such a network, there are crosslinkers with four adjacent chains. All chains between two crosslinkers have the same length. You can adjust, for example, chain length, unit cell repition or distance between chain monomers.
 
 <img align="center" width="300" height="300"   src="https://github.com/smilster/lammps-regular-polymer-network/blob/main/example.png" alt="example">
 
