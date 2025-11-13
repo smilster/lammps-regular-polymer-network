@@ -1,15 +1,15 @@
 cff-version: 1.2.0
-message: "If you use this repository, please cite the following papers."
+message: "If you use this software, please cite the following papers."
 authors:
   - family-names: "Milster"
     given-names: "Sebastian"
     orcid: "https://orcid.org/0000-0001-6356-7790"
 title: "lammps-regular-polymer-network"
-version: "1.0.0"
+version: 1.0.0
 date-released: 2025-11-13
 url: "https://github.com/smilster/lammps-regular-polymer-network"
 
-references:
+preferred-citation:
   - type: article
     title: "Tuning the permeability of regular polymeric networks by the cross-link ratio"
     authors:
@@ -21,11 +21,11 @@ references:
         given-names: "Matej"
       - family-names: "Dzubiella"
         given-names: "Joachim"
+    doi: "10.1063/5.0045675"
     journal: "The Journal of Chemical Physics"
     volume: 154
     issue: 15
     year: 2021
-    doi: "10.1063/5.0045675"
 
   - type: article
     title: "Tracer dynamics in polymer networks: Generalized Langevin description"
@@ -40,11 +40,11 @@ references:
         given-names: "Tanja"
       - family-names: "Dzubiella"
         given-names: "Joachim"
+    doi: "10.1063/5.0189166"
     journal: "The Journal of Chemical Physics"
     volume: 160
     issue: 9
     year: 2024
-    doi: "10.1063/5.0189166"
 
   - type: article
     title: "Nonequilibrium friction and free energy estimates for kinetic coarse-graining — Driven particles in responsive media"
@@ -57,8 +57,8 @@ references:
         given-names: "Gerhard"
       - family-names: "Wolf"
         given-names: "Steffen"
+    doi: "10.1063/5.0261459"
     journal: "The Journal of Chemical Physics"
     volume: 162
     issue: 15
     year: 2025
-    doi: "10.1063/5.0261459"
