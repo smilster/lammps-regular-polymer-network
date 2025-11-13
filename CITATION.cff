@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the following papers."
+message: "If you use this script, please cite the following papers."
 authors:
   - family-names: "Milster"
     given-names: "Sebastian"
@@ -10,7 +10,7 @@ date-released: 2025-11-13
 url: "https://github.com/smilster/lammps-regular-polymer-network"
 
 preferred-citation:
-  - type: article
+    type: article
     title: "Tuning the permeability of regular polymeric networks by the cross-link ratio"
     authors:
       - family-names: "Milster"
@@ -27,7 +27,7 @@ preferred-citation:
     issue: 15
     year: 2021
 
-  - type: article
+    type: article
     title: "Tracer dynamics in polymer networks: Generalized Langevin description"
     authors:
       - family-names: "Milster"
@@ -46,7 +46,7 @@ preferred-citation:
     issue: 9
     year: 2024
 
-  - type: article
+    type: article
     title: "Nonequilibrium friction and free energy estimates for kinetic coarse-graining — Driven particles in responsive media"
     authors:
       - family-names: "Milster"
