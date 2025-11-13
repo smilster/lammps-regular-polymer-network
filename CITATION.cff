@@ -1,19 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the following works."
-title: "lammps-regular-polymer-network: a LAMMPS script that generates a periodic regular polymer network"
-version: "v0.1.0"  # adjust as appropriate
-doi: "10.5281/zenodo.YOURDOI"  # replace with a DOI for the software itself if available
-authors:
-  - family-names: Milster
-    given-names: Sebastian
-    orcid: "0000-0001-6356-7790"
-    affiliation: "Physikalisches Institut, Albert-Ludwigs-Universität Freiburg, Germany"
-date-released: 2025-11-13
-repository-code: "https://github.com/smilster/lammps-regular-polymer-network"
-keywords:
-  - molecular dynamics
-  - polymer network
-  - LAMMPS
+message: "If you use this repository, please cite the following works."
+
 references:
   - type: article
     title: "Tuning the permeability of regular polymeric networks by the cross-link ratio"
@@ -31,6 +18,7 @@ references:
     issue: 15
     year: 2021
     doi: "10.1063/5.0045675"
+
   - type: article
     title: "Tracer dynamics in polymer networks: Generalized Langevin description"
     authors:
@@ -49,6 +37,7 @@ references:
     issue: 9
     year: 2024
     doi: "10.1063/5.0189166"
+
   - type: article
     title: "Nonequilibrium friction and free energy estimates for kinetic coarse-graining — Driven particles in responsive media"
     authors:
